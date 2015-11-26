@@ -13,8 +13,8 @@ class Bottle {
   // in radians per millisecond
   float rotspeed;
   
-  Bottle(PImage init_img, float init_yspeed, float init_rotspeed, float init_angle) {
-    xpos = random(width);
+  Bottle(PImage init_img, float init_xpos, float init_yspeed, float init_rotspeed, float init_angle) {
+    xpos = init_xpos;
     ypos = -1*b_height;
     yspeed = init_yspeed;
     rotspeed = init_rotspeed;
@@ -22,8 +22,8 @@ class Bottle {
     img = init_img;
   }
   
-  Bottle(PImage init_img) {
-    this(init_img, random(0.05,0.2), random(0.0005,0.002), random(TAU));
+  Bottle(PImage init_img, int left, int right) {
+    this(init_img, random(left+b_height,right-b_height),random(0.1,0.2), random(0.0005,0.002), random(TAU));
     
     if (random(1) > 0.5) {
       rotspeed = -1*rotspeed;

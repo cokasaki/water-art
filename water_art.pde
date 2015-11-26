@@ -1,49 +1,40 @@
 int time = 0;
 int new_time = 0;
-ArrayList<Bottle> bottles;
+
 PImage bottle_img;
-float bottles_per_sec = 10;
-float milli_per_bottle = 1000/bottles_per_sec;
-float t_minus = milli_per_bottle;
-int num_bottles = 0;
-int text_size = 15;
+BottleDropper dropper;
+ScaleModel model;
 
 void setup() {
-  size(400, 400);
+  size(800, 600);
   stroke(1.0);
   fill(1.0);
   
   bottle_img = loadImage("bottle_img.png");
-  bottles = new ArrayList<Bottle>();
+  dropper = new BottleDropper(bottle_img,200,0,600,600);
+  model = new ScaleModel(bottle_img,0,0,200,600,15);
+  dropper.drop_n_bottles(300);
     
 }
       
 void draw() {
   
+  // wipe the screen
   background(255,255,255);
 
+  // calculate the time since the last draw cycle
   new_time = millis();
   int dt = new_time - time;
-  t_minus = t_minus - dt;
-  while(t_minus < 0){
-    t_minus = t_minus + milli_per_bottle;
-    bottles.add(new Bottle(bottle_img));
-    num_bottles++;
-  }
   time = new_time;
   
-  for(int i = bottles.size()-1; i >= 0; i--){
-    Bottle bottle = bottles.get(i);
-    bottle.update(dt);
-    if(bottle.dead()){
-      bottles.remove(i);
-    } else {
-      bottle.draw();
-    }
-  }
+  dropper.draw(dt);
+  int num_dropped = dropper.get_num_dropped();
   
-  textSize(text_size);
-  text("Number of bottles: " + num_bottles,text_size,height-text_size);
+  // separate the two halves of the screen
+  line(200,0,200,height);
   
+  // draw the scale model
+  model.draw(dt,num_dropped);
+
 }
      
