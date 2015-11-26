@@ -5,6 +5,8 @@ PImage bottle_img;
 float bottles_per_sec = 10;
 float milli_per_bottle = 1000/bottles_per_sec;
 float t_minus = milli_per_bottle;
+int num_bottles = 0;
+int text_size = 15;
 
 void setup() {
   size(400, 400);
@@ -13,9 +15,6 @@ void setup() {
   
   bottle_img = loadImage("bottle_img.png");
   bottles = new ArrayList<Bottle>();
-  for(int i = 0; i < bottles_per_sec; i++){
-    bottles.add(new Bottle(bottle_img));
-  }
     
 }
       
@@ -29,6 +28,7 @@ void draw() {
   while(t_minus < 0){
     t_minus = t_minus + milli_per_bottle;
     bottles.add(new Bottle(bottle_img));
+    num_bottles++;
   }
   time = new_time;
   
@@ -41,6 +41,9 @@ void draw() {
       bottle.draw();
     }
   }
+  
+  textSize(text_size);
+  text("Number of bottles: " + num_bottles,text_size,height-text_size);
   
 }
      
