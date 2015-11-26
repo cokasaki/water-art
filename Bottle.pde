@@ -24,6 +24,10 @@ class Bottle {
   
   Bottle(PImage init_img) {
     this(init_img, random(0.05,0.2), random(0.0005,0.002), random(TAU));
+    
+    if (random(1) > 0.5) {
+      rotspeed = -1*rotspeed;
+    }
   }  
   
   void update(float dt) {
