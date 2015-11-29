@@ -1,3 +1,4 @@
+// constants controlling the size of the falling bottles
 int b_scale = 5;
 float b_width = 97.0/b_scale;
 float b_height = 304.0/b_scale;

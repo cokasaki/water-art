@@ -1,5 +1,4 @@
 float millis_to_drop = 10000.0;
-int text_size = 15;
 
 class BottleDropper {
   PImage b_img;

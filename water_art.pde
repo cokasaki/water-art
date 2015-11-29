@@ -1,19 +1,31 @@
 int time = 0;
 int new_time = 0;
 
-PImage bottle_img;
 BottleDropper dropper;
 ScaleModel model;
+Button[] buttons = new Button[4];
+int[] button_nums = {1,10,100,1000};
+
+int h = 600;
+int model_w = 200;
+int dropper_w = 600;
 
 void setup() {
-  size(800, 600);
+  size(800,600);
   stroke(1.0);
   fill(1.0);
   
-  bottle_img = loadImage("bottle_img.png");
-  dropper = new BottleDropper(bottle_img,200,0,600,600);
-  model = new ScaleModel(bottle_img,0,0,200,600,15);
-  dropper.drop_n_bottles(300);
+  PImage bottle_img = loadImage("bottle_img.png");
+  PImage person_img = loadImage("person_img_2.png");
+  dropper = new BottleDropper(bottle_img,model_w,0,    // upper left corner
+                                         dropper_w,h); // lower right corner
+  model = new ScaleModel(bottle_img,person_img,0,0,    // upper left corner
+                                               200,600,// lower right corner
+                                               15);
+  for(int i = 0; i < buttons.length; i++){
+    buttons[i] = new Button(width-75,25+75*i);
+  }
+  
     
 }
       
@@ -35,6 +47,19 @@ void draw() {
   
   // draw the scale model
   model.draw(dt,num_dropped);
+  
+  // draw the buttons
+  for (int i = 0; i < buttons.length; i++){
+    buttons[i].draw();
+  }
 
+}
+
+void mouseClicked(){
+  for (int i = 0; i < buttons.length; i++){
+    if (buttons[i].inside(mouseX,mouseY)) {
+      dropper.drop_n_bottles(button_nums[i]);
+    }
+  }
 }
      
