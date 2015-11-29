@@ -1,4 +1,5 @@
-float millis_to_drop = 10000.0;
+float millis_to_drop = 5000.0;
+float min_millis_per_bottle = 15.0;
 
 class BottleDropper {
   PImage b_img;
@@ -30,15 +31,19 @@ class BottleDropper {
   
   void drop_n_bottles(int n){
     if (!dropping){
-      millis_per_bottle = millis_to_drop/n;
+      millis_per_bottle = max(min_millis_per_bottle,millis_to_drop/n);
       num_to_drop = n;
-      t_minus = millis_per_bottle;
+      t_minus = 0;
       dropping = true;
     }
   }
   
   int get_num_dropped(){
     return num_dropped;
+  }
+  
+  boolean is_dropping(){
+    return dropping;
   }
   
   void draw(int dt){
@@ -78,13 +83,12 @@ class BottleDropper {
         bottle.draw();
       }
     }
-  
-    // draw the text to say how many bottles have fallen
+
     if (bottles.size() > 0){
-      textSize(text_size);
       text("Number of bottles: " + num_dropped,text_size,myheight-text_size);
     }
     popMatrix();
+
   }
   
 }

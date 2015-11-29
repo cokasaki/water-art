@@ -3,8 +3,8 @@ int new_time = 0;
 
 BottleDropper dropper;
 ScaleModel model;
-Button[] buttons = new Button[4];
-int[] button_nums = {1,10,100,1000};
+Button[] buttons = new Button[7];
+int[] button_nums = {1,10,100,1000,2000,5000,10000};
 
 int h = 600;
 int model_w = 200;
@@ -14,6 +14,7 @@ void setup() {
   size(800,600);
   stroke(1.0);
   fill(1.0);
+  textSize(text_size);
   
   PImage bottle_img = loadImage("bottle_img.png");
   PImage person_img = loadImage("person_img_2.png");
@@ -38,7 +39,7 @@ void draw() {
   new_time = millis();
   int dt = new_time - time;
   time = new_time;
-  
+
   dropper.draw(dt);
   int num_dropped = dropper.get_num_dropped();
   
@@ -53,6 +54,10 @@ void draw() {
     buttons[i].draw();
   }
 
+}
+
+void keyPressed(){
+  dropper.drop_n_bottles(100);
 }
 
 void mouseClicked(){
