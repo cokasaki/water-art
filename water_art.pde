@@ -1,4 +1,5 @@
 import processing.serial.*;
+import processing.sound.*;
 import cc.arduino.*;
 
 int time = 0;
@@ -11,16 +12,10 @@ ScaleModel model;
 Sensor[] sensors = new Sensor[1];
 //int[] button_nums = {1,10,100,1000,2000,5000,10000};
 int[] pin_nums = {5};
-int[] bottle_nums = {10};
-
-
-int time = 0;
-int new_time = 0;
-
-BottleDropper dropper;
-ScaleModel model;
-//Button[] buttons = new Button[7];
-//int[] button_nums = {1,10,100,1000,2000,5000,10000};
+int[] bottle_nums = {1000};
+SoundFile[] sounds = new SoundFile[1];
+int[] sound_start_times = {3};
+SoundFile current_sound;
 
 int h = 600;
 int model_w = 200;
@@ -32,7 +27,9 @@ void setup() {
   fill(1.0);
   textSize(text_size);
   
-  arduino = new Arduino(this, "/dev/tty.usbmodem641", 57600);
+  //println(Arduino.list());
+  
+  arduino = new Arduino(this, "/dev/tty.usbmodem1411", 57600);
 
   PImage bottle_img = loadImage("bottle_img.png");
   PImage person_img = loadImage("person_img_2.png");
@@ -45,9 +42,15 @@ void setup() {
   //  buttons[i] = new Button(width-75,25+75*i);
   //}
   
+  sounds[0] = new SoundFile(this,"waterfall.mp3"); // start_time should be 0
+  //sounds[?] = new SoundFile(this,"brook.mp3"); // start_time should be 0
+  //sounds[?] = new SoundFile(this,"faucet.mp3"); // start_time should be 49
+  //sounds[?] = new SoundFile(this,"trickle.mp3"); // start_time should be 3
+  
   for(int i = 0; i < sensors.length; i++){
-    sensors[i] = new Sensor(pin_nums[i], bottle_nums[i], arduino);
+    sensors[i] = new Sensor(pin_nums[i], bottle_nums[i], arduino, sounds[i], sound_start_times[i]);
   }
+
   
     
 }
@@ -63,6 +66,11 @@ void draw() {
   time = new_time;
 
   dropper.draw(dt);
+  if(current_sound != null){
+    if(!dropper.is_dropping()){
+      current_sound.stop();
+    }
+  }
   int num_dropped = dropper.get_num_dropped();
   
   // separate the two halves of the screen
@@ -78,7 +86,12 @@ void draw() {
   for (int i = 0; i < sensors.length; i++){
     sensors[i].sense();
     if (sensors[i].selected()) {
-      dropper.drop_n_bottles(sensors[i].getNumBottles());
+      if ( !dropper.is_dropping() ){
+        dropper.drop_n_bottles(sensors[i].getNumBottles());
+        current_sound = sensors[i].getSound();
+        current_sound.cue(sensors[i].getSoundStart());
+        current_sound.play();
+      }
     }
   }
 

@@ -29,12 +29,16 @@ class Sensor {
  int sensorPin;
  int sensorValue = 0;
  int numBottles;
+ SoundFile sound;
+ int soundStart;
  Arduino arduino;
   
- Sensor(int pin, int bottles, Arduino a) {
+ Sensor(int pin, int bottles, Arduino a, SoundFile s, int start) {
    sensorPin = pin;
    numBottles = bottles;
    arduino = a;
+   sound = s;
+   soundStart = start;
    a.pinMode(sensorPin, Arduino.INPUT);
  }
   
@@ -49,5 +53,13 @@ class Sensor {
  
  int getNumBottles() {
    return numBottles;
+ }
+ 
+ SoundFile getSound() {
+   return sound;
+ }
+ 
+ int getSoundStart() {
+   return soundStart;
  }
 }
