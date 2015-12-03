@@ -14,6 +14,14 @@ int[] pin_nums = {5};
 int[] bottle_nums = {10};
 
 
+int time = 0;
+int new_time = 0;
+
+BottleDropper dropper;
+ScaleModel model;
+//Button[] buttons = new Button[7];
+//int[] button_nums = {1,10,100,1000,2000,5000,10000};
+
 int h = 600;
 int model_w = 200;
 int dropper_w = 600;
@@ -25,7 +33,7 @@ void setup() {
   textSize(text_size);
   
   arduino = new Arduino(this, "/dev/tty.usbmodem641", 57600);
-  
+
   PImage bottle_img = loadImage("bottle_img.png");
   PImage person_img = loadImage("person_img_2.png");
   dropper = new BottleDropper(bottle_img,model_w,0,    // upper left corner
@@ -79,7 +87,6 @@ void draw() {
 void keyPressed(){
   dropper.drop_n_bottles(100);
 }
-
 //void mouseClicked(){
 //  for (int i = 0; i < buttons.length; i++){
 //    if (buttons[i].inside(mouseX,mouseY)) {
@@ -87,5 +94,4 @@ void keyPressed(){
 //    }
 //  }
 //}
-
      
