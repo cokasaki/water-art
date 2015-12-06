@@ -1,5 +1,5 @@
-int liters_per_person = 80; // ???
-int b_w_per_person = 10; // ???
+float liters_per_person = 66.4; // ???
+float b_widths_per_person = 5.5; // ???
 
 float b_ratio = 304.0/97.0;
 float p_ratio = 223.0/97.0;

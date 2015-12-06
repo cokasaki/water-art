@@ -4,17 +4,16 @@ import cc.arduino.*;
 
 int time = 0;
 int new_time = 0;
+int text_size = 15;
 
 Arduino arduino;
 BottleDropper dropper;
 ScaleModel model;
-//Button[] buttons = new Button[7];
-Sensor[] sensors = new Sensor[1];
-//int[] button_nums = {1,10,100,1000,2000,5000,10000};
-int[] pin_nums = {5};
-int[] bottle_nums = {1000};
-SoundFile[] sounds = new SoundFile[1];
-int[] sound_start_times = {3};
+Sensor[] sensors = new Sensor[5];
+int[] pin_nums = {0,1,2,3,4};
+int[] bottle_nums = {10,100,500,1000,2000};
+SoundFile[] sounds = new SoundFile[5];
+int[] sound_start_times = {3,49,0,0,0};
 SoundFile current_sound;
 
 int h = 600;
@@ -42,10 +41,12 @@ void setup() {
   //  buttons[i] = new Button(width-75,25+75*i);
   //}
   
-  sounds[0] = new SoundFile(this,"waterfall.mp3"); // start_time should be 0
-  //sounds[?] = new SoundFile(this,"brook.mp3"); // start_time should be 0
-  //sounds[?] = new SoundFile(this,"faucet.mp3"); // start_time should be 49
-  //sounds[?] = new SoundFile(this,"trickle.mp3"); // start_time should be 3
+  sounds[0] = new SoundFile(this,"trickle.mp3"); // start_time should be 3 
+  sounds[1] = new SoundFile(this,"faucet.mp3"); // start_time should be 49
+  sounds[2] = new SoundFile(this,"brook.mp3"); // start_time should be 0
+  sounds[3] = new SoundFile(this,"waterfall.mp3"); // start_time should be 0
+  sounds[4] = new SoundFile(this,"waterfall.mp3"); // start_time should be 0
+  
   
   for(int i = 0; i < sensors.length; i++){
     sensors[i] = new Sensor(pin_nums[i], bottle_nums[i], arduino, sounds[i], sound_start_times[i]);
