@@ -1,8 +1,8 @@
-float liters_per_person = 66.4; // ???
-float b_widths_per_person = 5.5; // ???
+//float liters_per_person = 66.4; // ???
+float bottle_widths_per_person = 10; // ???
 
-float b_ratio = 304.0/97.0;
-float p_ratio = 223.0/97.0;
+float bottle_ratio = 304.0/97.0;
+float person_ratio = 223.0/97.0;
 
 class ScaleModel {
   PImage bottle_img;
@@ -36,16 +36,16 @@ class ScaleModel {
     
     pushMatrix();
     translate(xpos,ypos);
-    float b_bottle_scale = pow(n, 1/3.0);
-    float width_vs_person = b_bottle_scale/b_w_per_person;
-    float person_width = (mywidth-3*margin)/(1+width_vs_person);
-    float b_bottle_width = (mywidth-3*margin)-person_width;
-    float b_bottle_height = b_ratio*b_bottle_width;
-    float person_height = p_ratio*person_width;
+    float big_bottle_scale = pow(n, 1/3.0);
+    float person_widths_per_big_bottle = big_bottle_scale/bottle_widths_per_person;
+    float person_width = (mywidth-3*margin)/(1+person_widths_per_big_bottle);
+    float big_bottle_width = (mywidth-3*margin)-person_width;
+    float big_bottle_height = bottle_ratio*big_bottle_width;
+    float person_height = person_ratio*person_width;
   
     imageMode(CORNER);
     image(person_img,margin,myheight-margin-person_height,person_width,person_height);
-    image(bottle_img,2*margin+person_width,myheight-margin-b_bottle_height, b_bottle_width,b_bottle_height);
+    image(bottle_img,2*margin+person_width,myheight-margin-big_bottle_height, big_bottle_width,big_bottle_height);
     popMatrix();
     
   }

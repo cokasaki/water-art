@@ -85,6 +85,8 @@ class BottleDropper {
     }
 
     if (bottles.size() > 0){
+      textAlign(CORNER);
+      textSize(text_size);
       text("Number of bottles: " + num_dropped,text_size,myheight-text_size);
     }
     popMatrix();
