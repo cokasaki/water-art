@@ -4,7 +4,7 @@ import cc.arduino.*;
 
 int time = 0;
 int new_time = 0;
-int text_size = 15;
+int text_size = 50;
 
 int num = 100;
 int[] bottle_x = new int[num];
@@ -20,15 +20,13 @@ int[] pin_nums = {2,3,4,5};
 int[] bottle_nums = {500,1000,2000,7000}; 
 // lettuce, corn, milk, chicken, steak
 SoundFile[] sounds = new SoundFile[4];
-int[] sound_start_times = {49,0,0,0};
+int[] sound_start_times = {0,0,0,0};
 SoundFile current_sound;
 
-int h = 600;
-int model_w = 200;
-int dropper_w = 600;
 
 void setup() {
-  size(800,600);
+  //size(800,600);
+  fullScreen();
   stroke(1.0);
   fill(1.0);
   textSize(text_size);
@@ -45,20 +43,24 @@ void setup() {
 
   bottle_img = loadImage("bottle_img.png");
   PImage person_img = loadImage("person_img_2.png");
-  dropper = new BottleDropper(bottle_img,model_w,0,    // upper left corner
-                                         dropper_w,h); // lower right corner
+  dropper = new BottleDropper(bottle_img,width/4,0,    // upper left corner
+                                         width-width/4,height); // lower right corner
   model = new ScaleModel(bottle_img,person_img,0,0,    // upper left corner
-                                               200,600,// lower right corner
+                                               width/4,height,// lower right corner
                                                15);
   //for(int i = 0; i < buttons.length; i++){
   //  buttons[i] = new Button(width-75,25+75*i);
   //}
   
   //sounds[0] = new SoundFile(this,"trickle.mp3"); // start_time should be 3 
-  sounds[0] = new SoundFile(this,"faucet.wav"); // start_time should be 49
+  //sounds[1] = new SoundFile(this,"faucet.wav"); // start_time should be 49
+  
+  sounds[0] = new SoundFile(this,"brook.wav"); // start_time should be 0
   sounds[1] = new SoundFile(this,"brook.wav"); // start_time should be 0
   sounds[2] = new SoundFile(this,"waterfall.mp3"); // start_time should be 0
-  sounds[3] = new SoundFile(this,"waterfall.mp3"); // start_time should be 0
+  sounds[2].amp(0.3);
+  sounds[3] = new SoundFile(this,"waterfall3.wav"); // start_time should be 0
+  sounds[3].amp(0.6);
   
   
   for(int i = 0; i < sensors.length; i++){
@@ -88,7 +90,7 @@ void draw() {
       rotate(angle);
     
       imageMode(CENTER);
-      image(bottle_img,0,0,b_width,b_height);
+      image(bottle_img,0,0,b_width*5/3.0,b_height*5/3.0);
     
       popMatrix();
     }
@@ -109,10 +111,10 @@ void draw() {
   
   // separate the two halves of the screen
   if(dropper.is_dropping()){
-    line(200,0,200,height);
+    line(width/4,0,width/4,height);
   } else {
     textAlign(CENTER);
-    textSize(50);
+    textSize(75);
     text("WATER YOU EATING?",width/2,height/2);
   }
   

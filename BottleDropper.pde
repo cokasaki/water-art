@@ -1,5 +1,5 @@
 float millis_to_drop = 5000.0;
-float min_millis_per_bottle = 15.0;
+float min_millis_per_bottle = 17;
 
 class BottleDropper {
   PImage b_img;
